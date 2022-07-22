@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://dynaconf.com"><img src="https://github.com/dynaconf/dynaconf/raw/master/docs/img/logo_400.svg?sanitize=true" alt="Dynaconf"></a>
+  <a href="https://dynaconf.com"><img src="https://github.com/dynaconf/dynaconf/raw/master/docs/img/logo_400.svg?sanitize=true" alt="Dynaconf" width="600px"></a>
 </p>
 <p align="center">
     <strong>Dynaconf</strong> is <em>Configuration Management for Python.</em>
