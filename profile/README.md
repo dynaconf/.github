@@ -18,7 +18,7 @@
 - Optional layered system for **multi environments** `[default, development, testing, production]` (also called multi profiles)
 - Built-in support for **Hashicorp Vault** and **Redis** as settings and secrets storage.
 - Built-in extensions for **Django** and **Flask** web frameworks.
-- **CLI** for common operations such as `init, list, write, validate, export`.
+- **CLI** for common operations such as `init, list, write, validate, export, get`.
 
 ## Installation
 
@@ -29,3 +29,68 @@ pip install dynaconf
 ```
 
 Read the docs on [Dynaconf.com](https://dynaconf.com)
+
+### Quick Start
+
+> Looking for [Flask](https://www.dynaconf.com/flask/) or [Django](https://www.dynaconf.com/django/) plugins?
+
+`config.py`
+```python
+from dynaconf import Dynaconf
+settings = Dynaconf(
+    envvar_prefix="APP", 
+    settings_files=["default_settings.toml"], 
+    environments=["production", "development"]
+)
+```
+
+`default_settings.toml` (yaml, ini, json, py, cfg, etc...)
+```toml
+[default]
+name = "Default Name"
+debug = true
+data = {value=1}
+
+[development]
+name = "amber"
+
+[production]
+debug = false
+name = "@vault /take/from/vault/secret"
+```
+
+`main.py`
+```python
+from config import settings
+
+if settings.debug:
+    print(f"Hello {settings.name}")
+
+print(settings.data.value)
+print(settings.get("key", default="a default value for you"))
+print(settings["NAME"], ", this also works as a dict")
+```
+---
+
+`console`
+```console
+$ python main.py
+Hello amber
+1
+a default value for you
+amber, this also works as a dict
+
+# Environment Variables overrides
+$ APP_NAME=Bruno python main.py 
+Hello Bruno
+
+# Nested env vars works
+$ APP_NAME=admin APP_DATA__VALUE=42 python main.py 
+Hello admin
+42
+```
+
+[Try it online](https://replit.com/@rochacbruno/dynaconf2020?v=1)
+
+Read the docs on [Dynaconf.com](https://dynaconf.com)
+
